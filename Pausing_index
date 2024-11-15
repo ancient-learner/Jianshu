@@ -1,0 +1,9 @@
+module load SAMtools;module load Bowtie2; bowtie2 -p 24 --local --very-sensitive-local --no-mixed --no-discordant --no-unal -q --ph
+red33 -I 10 -X 700 -x /home/ay328/project/Genomes_and_indexes/hg38_wei/Bowtie2/hg38_wei -1 C13_R1.fastq.gz -2 C13_R2.fastq.gz  | sam
+tools view -Sb - | samtools sort -@ 12 -o C13_sorted.bam
+
+#refegene_hg38 is used for generating 3 annotation files for PI calculation
+python tag_RPM.py --chip Pol2_CTCF_neg_merged_reps.bam --input S_ep321-38.bam --min 30 --tss gene_tss.bed --gb gene_GB.bed
+
+python Pausing_Index.py --tags Pol2_YY1_neg_merged_reps_tag_count_normalize.txt --anno gene_info.txt
+
